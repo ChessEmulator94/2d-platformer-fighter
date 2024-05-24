@@ -229,19 +229,23 @@ class character {
     );
   }
 
+  getAttackBoxPositionX() {
+    let attackBoxPositionX = this.attackBox.position.x;
+    // Check which side of character to draw attack box
+    if (this.direction < 0) {
+      attackBoxPositionX -= this.attackBox.width;
+    } else {
+      attackBoxPositionX += this.width;
+    }
+    return attackBoxPositionX;
+  }
+
   drawAttack() {
     if (this.showAttack) {
-      let attackBoxPositionX = this.attackBox.position.x;
-      // Check which side of character to draw attack box
       canvasContext.fillStyle = "blue";
-      if (this.direction < 0) {
-        attackBoxPositionX -= this.attackBox.width;
-      } else {
-        attackBoxPositionX += this.width;
-      }
       // Draw the box
       canvasContext.fillRect(
-        attackBoxPositionX,
+        this.getAttackBoxPositionX(),
         this.attackBox.position.y,
         this.attackBox.width,
         this.attackBox.height

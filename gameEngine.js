@@ -6,7 +6,7 @@ class gameEngine {
     // Holds all characters
     this.allCharacters = [];
 
-    // Create player1
+    // Create player
     this.playerCharacter = new character({
       width: 110,
       height: 180,
@@ -18,7 +18,7 @@ class gameEngine {
       direction: 1,
       primaryAttack: " ",
     });
-    // Create player2 using default constructor
+    // Create enemy using default constructor
     this.playerCharacter2 = new character();
 
     // Add playerCharacter objects to arr of graphics that need to be drawn
@@ -37,20 +37,27 @@ class gameEngine {
     });
   }
 
-  successfulAttack({ player1, player2 }) {}
+  // Check if player hit enemy
+  successfulAttack({ player, enemy }) {
+    return (
+      player.getAttackBoxPositionX() < enemy.position.x + enemy.width &&
+      player.getAttackBoxPositionX() + player.attackBox.width >
+        enemy.position.x &&
+      player.attackBox.position.y < enemy.position.y + enemy.height &&
+      player.attackBox.position.y > enemy.height
+    );
+  }
 
   // Checks for successful attacks
   checkCollisions({ player }) {
     if (player.isAttacking) {
-      /*  
-    allPlayers.forEach((otherPlayer)=>{
-        if (otherPlayer != player){
-            if (successfulAttack({player1: player, player2: otherPlayer})){
-                
-            }
+      this.allCharacters.forEach((otherPlayer) => {
+        if (otherPlayer != player) {
+          if (this.successfulAttack({ player: player, enemy: otherPlayer })) {
+            console.log("Opponent Hit");
+          }
         }
-    })
-    */
+      });
       player.isAttacking = false;
     }
   }
