@@ -1,0 +1,1 @@
+class background extends sprite {}

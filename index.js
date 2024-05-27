@@ -10,11 +10,11 @@ const gameEngineMain = new gameEngine();
 
 function animate() {
   window.requestAnimationFrame(animate);
-  canvasContext.fillStyle = "white";
+  canvasContext.fillStyle = "black";
   canvasContext.fillRect(0, 0, canvas.width, canvas.height);
   // Get the new game state
   gameEngineMain.run();
   // Call updateGraphics() on the game which calls all the draw methods
-  gameEngineMain.updateGraphics();
+  // gameEngineMain.updateGraphics();
 }
 animate();

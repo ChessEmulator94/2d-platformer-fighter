@@ -7,6 +7,63 @@ body {
   justify-content: center;
 }
 
-canvas {
-  border: solid black 4px;
+.container {
+  position: relative;
+  display: flex;
+  width: 1024;
+  height: 576;
+  border: solid black 5px;
+}
+
+.top-bar {
+  position: absolute;
+  top: 20;
+  width: 100%;
+  height: 20%;
+  /* border: solid blue 4px; */
+  /* background-color: black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player-health {
+  width: 420px;
+  height: 60%;
+  border: solid 4px white;
+  position: relative;
+}
+
+/* Width of health-total is linked to character health */
+.health-total {
+  position: absolute;
+  background-color: #8a0303;
+  height: 100%;
+}
+
+#p1 {
+  /* Width + left must = 100%, start at 0 */
+  width: 100%;
+  left: 0%;
+}
+
+#p2 {
+  width: 100%;
+}
+
+.round-timer {
+  width: 100px;
+  height: 100px;
+  background-color: wheat;
+  margin-inline: 6px;
+  border: black solid 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Jacquard 12";
+  font-size: 70;
+}
+
+.countdown {
+  padding-bottom: 17%;
 }

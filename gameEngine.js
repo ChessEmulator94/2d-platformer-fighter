@@ -6,6 +6,17 @@ class gameEngine {
     // Holds all characters
     this.allCharacters = [];
 
+    // // Create the background image
+    // this.backgroundImage = new background({
+    //   position: { x: 0, y: 0 },
+    //   imageSource: "./assets/backgrounds/bgj-ruins.jpg",
+    //   height: 576,
+    //   width: 1024,
+    // });
+
+    // // Push bg image to list of graphics
+    // this.allGraphics.push(this.backgroundImage);
+
     // Create player
     this.playerCharacter = new character({
       width: 110,
@@ -37,7 +48,7 @@ class gameEngine {
     });
   }
 
-  // Check if player hit enemy
+  // Check if player hit enemy, used by checkCollisions()
   successfulAttack({ player, enemy }) {
     return (
       player.getAttackBoxPositionX() < enemy.position.x + enemy.width &&
@@ -66,5 +77,6 @@ class gameEngine {
   run() {
     this.checkCollisions({ player: this.playerCharacter });
     this.checkCollisions({ player: this.playerCharacter2 });
+    this.updateGraphics();
   }
 }
