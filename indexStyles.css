@@ -41,13 +41,13 @@ body {
   height: 100%;
 }
 
-#p1 {
+#p1-healthbar {
   /* Width + left must = 100%, start at 0 */
   width: 100%;
   left: 0%;
 }
 
-#p2 {
+#p2-healthbar {
   width: 100%;
 }
 

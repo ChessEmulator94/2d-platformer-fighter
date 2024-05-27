@@ -6,16 +6,17 @@ class gameEngine {
     // Holds all characters
     this.allCharacters = [];
 
-    // // Create the background image
-    // this.backgroundImage = new background({
-    //   position: { x: 0, y: 0 },
-    //   imageSource: "./assets/backgrounds/bgj-ruins.jpg",
-    //   height: 576,
-    //   width: 1024,
-    // });
+    // Create the background image
+    this.backgroundImage = new background({
+      position: { x: 0, y: 0 },
+      imageSource: "bg-ruins.jpg",
+      height: 576,
+      width: 1024,
+    });
 
-    // // Push bg image to list of graphics
-    // this.allGraphics.push(this.backgroundImage);
+    console.log(this.backgroundImage);
+    // Push bg image to list of graphics
+    this.allGraphics.push(this.backgroundImage);
 
     // Create player
     this.playerCharacter = new character({
@@ -39,13 +40,40 @@ class gameEngine {
     // Add playerCharacter objects to arr of all playerCharacters
     this.allCharacters.push(this.playerCharacter);
     this.allCharacters.push(this.playerCharacter2);
+
+    this.p1HealthBar = document.querySelector("#p1-healthbar");
+    this.p2HealthBar = document.querySelector("#p2-healthbar");
+    this.gameTimer = document.querySelector(".round-timer");
   }
+
+  // Updates non canvas html elements
+  updateDivs() {
+    this.updateHealthBars();
+    this.updateTimer();
+  }
+
+  updateHealthBars() {
+    let left = `${100 - this.playerCharacter.health}%`;
+    this.p1HealthBar.setAttribute(
+      "style",
+      `width:${this.playerCharacter.health}%`
+    );
+    this.p1HealthBar.style.left = left;
+    this.p2HealthBar.setAttribute(
+      "style",
+      `width:${this.playerCharacter2.health}%`
+    );
+    console.log(this.p2HealthBar);
+  }
+
+  updateTimer() {}
 
   // Iterate over all the objects and call their updateGraphic methods
   updateGraphics() {
     this.allGraphics.forEach((element) => {
       element.updateGraphic();
     });
+    this.updateDivs();
   }
 
   // Check if player hit enemy, used by checkCollisions()
@@ -59,13 +87,23 @@ class gameEngine {
     );
   }
 
+  recordAttack({ attacker, victim, damage }) {
+    victim.adjustHealth({ damage: damage });
+  }
+
   // Checks for successful attacks
   checkCollisions({ player }) {
     if (player.isAttacking) {
       this.allCharacters.forEach((otherPlayer) => {
         if (otherPlayer != player) {
           if (this.successfulAttack({ player: player, enemy: otherPlayer })) {
+            this.recordAttack({
+              attacker: player,
+              victim: otherPlayer,
+              damage: 5,
+            });
             console.log("Opponent Hit");
+            console.log(otherPlayer.health);
           }
         }
       });

@@ -240,6 +240,10 @@ class character {
     return attackBoxPositionX;
   }
 
+  adjustHealth({ damage }) {
+    this.health -= damage;
+  }
+
   drawAttack() {
     if (this.showAttack) {
       canvasContext.fillStyle = "blue";

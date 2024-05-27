@@ -4,7 +4,7 @@ class sprite {
     this.width = width;
     this.height = height;
     this.image = new Image();
-    this.image.src = this.imageSource;
+    this.image.src = imageSource;
   }
 
   draw() {
