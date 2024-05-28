@@ -9,19 +9,28 @@ class gameEngine {
     // Create the background image
     this.backgroundImage = new background({
       position: { x: 0, y: 0 },
-      imageSource: "bg-ruins.jpg",
+      imageSource: "./assets/backgrounds/bg-oakwoods.jpg",
       height: 576,
       width: 1024,
     });
 
-    console.log(this.backgroundImage);
     // Push bg image to list of graphics
     this.allGraphics.push(this.backgroundImage);
 
+    this.shopImage = new animated_sprite({
+      position: { x: 761, y: 228 },
+      // position: { x: 261, y: 228 },
+      maxAnimationFrames: 6,
+      imageSource: "./assets/backgrounds/shop-animation.png",
+      scale: 2.22,
+    });
+
+    console.log(this.shopImage);
+
+    this.allGraphics.push(this.shopImage);
+
     // Create player
     this.playerCharacter = new character({
-      width: 110,
-      height: 180,
       leftKey: "a",
       downKey: "s",
       rightKey: "d",
@@ -63,7 +72,6 @@ class gameEngine {
       "style",
       `width:${this.playerCharacter2.health}%`
     );
-    console.log(this.p2HealthBar);
   }
 
   updateTimer() {}
@@ -102,8 +110,6 @@ class gameEngine {
               victim: otherPlayer,
               damage: 5,
             });
-            console.log("Opponent Hit");
-            console.log(otherPlayer.health);
           }
         }
       });

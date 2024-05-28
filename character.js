@@ -5,16 +5,18 @@ class character {
   GRAVITY = 6;
   // Determines how long an attack animation and attack lasts
   ATTACK_TIME = 50;
+  // Floor height
+  GROUND_HEIGHT = canvas.height - 64;
   // Default Constructor
   constructor({
-    height = 180,
-    width = 110,
+    height = 90,
+    width = 40,
     leftKey = "ArrowLeft",
     rightKey = "ArrowRight",
     downKey = "ArrowDown",
     upKey = "ArrowUp",
     primaryAttack = "Enter",
-    position = { x: 900, y: canvas.height - 180 }, // Subracted number must == height
+    position = { x: 900, y: this.GROUND_HEIGHT - 180 }, // Subracted number must == height
     speed = 5,
     jumpHeight = 100,
     health = 100,
@@ -166,7 +168,7 @@ class character {
       Maybe just need a setTimeout somewhere
      */
     // If character on the ground
-    if (this.position.y + this.height == canvas.height) {
+    if (this.position.y + this.height == this.GROUND_HEIGHT) {
       this.nowJumping = true;
     }
   };
@@ -174,7 +176,10 @@ class character {
   //
   jumpCheck() {
     if (this.nowJumping) {
-      if (this.position.y > canvas.height - this.height - this.jumpHeight) {
+      if (
+        this.position.y >
+        this.GROUND_HEIGHT - this.height - this.jumpHeight
+      ) {
         this.position.y -= this.JUMP_SPEED;
       } else {
         this.nowJumping = false;
@@ -199,8 +204,8 @@ class character {
     }
   }
   checkBoundaryGround() {
-    if (this.position.y + this.height >= canvas.height) {
-      this.position.y = canvas.height - this.height;
+    if (this.position.y + this.height >= this.GROUND_HEIGHT) {
+      this.position.y = this.GROUND_HEIGHT - this.height;
       this.canJump = true;
     }
   }
