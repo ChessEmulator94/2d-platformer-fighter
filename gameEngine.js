@@ -39,6 +39,9 @@ class gameEngine {
       direction: 1,
       primaryAttack: " ",
     });
+
+    console.log(this.playerCharacter);
+
     // Create enemy using default constructor
     this.playerCharacter2 = new character();
 

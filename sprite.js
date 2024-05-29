@@ -6,7 +6,10 @@ class sprite {
     width,
     scale = 1,
     maxAnimationFrames = 1,
+    emptySpaceOffset = { x: 0, y: 0 },
+    inverseFrameRate = 20,
   }) {
+    this.inverseFrameRate = inverseFrameRate;
     this.scale = scale;
     this.position = position;
     this.image = new Image();
@@ -20,6 +23,7 @@ class sprite {
     this.height = height;
     this.framesElapsed = 0;
     this.offset = 0;
+    this.emptySpaceOffset = emptySpaceOffset;
   }
 
   draw() {

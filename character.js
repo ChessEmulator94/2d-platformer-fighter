@@ -1,4 +1,4 @@
-class character {
+class character extends animated_sprite {
   // Determines distance moved per animation refresh during jum
   JUMP_SPEED = 15;
   // Should be between a third and a quarter of JUMP_SPEED
@@ -16,12 +16,32 @@ class character {
     downKey = "ArrowDown",
     upKey = "ArrowUp",
     primaryAttack = "Enter",
-    position = { x: 900, y: this.GROUND_HEIGHT - 180 }, // Subracted number must == height
+    position = { x: 900, y: canvas.height - 64 - 90 }, // Subracted number must == height
     speed = 5,
     jumpHeight = 100,
     health = 100,
     direction = -1,
+    scale = 2.22,
+    imageSource = "./assets/characters/samurai/idle.png",
+    maxAnimationFrames = 8,
+    framesElapsed = 0,
+    offset = 0,
+    emptySpaceOffset = { x: 169, y: 180 },
+    inverseFrameRate = 4,
   } = {}) {
+    super({
+      inverseFrameRate,
+      emptySpaceOffset,
+      scale,
+      position,
+      imageSource,
+      maxAnimationFrames,
+      width,
+      height,
+      framesElapsed,
+      offset,
+    });
+
     this.showAttack = false;
     this.position = position;
     this.canJump = true;
@@ -262,12 +282,12 @@ class character {
     }
   }
 
-  draw() {
-    // Draw character
-    this.drawCharacter();
-    // Draw attack box
-    this.drawAttack();
-  }
+  // draw() {
+  //   // Draw character
+  //   this.drawCharacter();
+  //   // Draw attack box
+  //   this.drawAttack();
+  // }
 
   // Function that is executed during every frame refresh
   updateGraphic() {
@@ -279,6 +299,10 @@ class character {
     this.applyGravity();
     // Ensure character isn't beyond the boundaries of the canvas
     this.checkBoundaries();
+
+    // Draw attack box
+    this.drawAttack();
+
     // Draw the character
     this.draw();
   }
