@@ -14,8 +14,8 @@ class sprite {
     this.position = position;
     this.image = new Image();
     this.image.src = imageSource;
-    this.image.width = this.image.width * scale;
-    this.image.height = this.image.height * scale;
+    this.image.width = this.image.width;
+    this.image.height = this.image.height;
     this.maxAnimationFrames = maxAnimationFrames;
     this.cropStartX = 0;
     this.cropStartY = 0;
@@ -32,13 +32,19 @@ class sprite {
       this.image,
       this.cropStartX,
       this.cropStartY,
-      this.image.width / this.maxAnimationFrames,
+      (this.image.width * this.scale) / this.maxAnimationFrames,
       this.image.height,
       this.position.x,
       this.position.y,
       (this.image.width * this.scale) / this.maxAnimationFrames,
       this.image.height * this.scale
     );
+  }
+
+  changeImage({ maxAnimationFrames, imageSource }) {
+    this.image = new Image();
+    this.image.src = imageSource;
+    this.maxAnimationFrames = maxAnimationFrames;
   }
 
   updateGraphic() {

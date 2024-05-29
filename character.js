@@ -1,16 +1,19 @@
 class character extends animated_sprite {
-  // Determines distance moved per animation refresh during jum
-  JUMP_SPEED = 15;
+  // Determines distance moved per animation refresh during jump
+  // Must be greater than gravity
+  JUMP_SPEED = 20;
   // Should be between a third and a quarter of JUMP_SPEED
-  GRAVITY = 6;
+  GRAVITY = 10;
   // Determines how long an attack animation and attack lasts
-  ATTACK_TIME = 50;
+  ATTACK_TIME = 400;
   // Floor height
   GROUND_HEIGHT = canvas.height - 64;
   // Default Constructor
   constructor({
+    // Should be equal to height  of actual drawing of sprite
     height = 90,
-    width = 40,
+    // Should be equal to width  of actual drawing of sprite
+    width = 45,
     leftKey = "ArrowLeft",
     rightKey = "ArrowRight",
     downKey = "ArrowDown",
@@ -18,7 +21,7 @@ class character extends animated_sprite {
     primaryAttack = "Enter",
     position = { x: 900, y: canvas.height - 64 - 90 }, // Subracted number must == height
     speed = 5,
-    jumpHeight = 100,
+    jumpHeight = 180,
     health = 100,
     direction = -1,
     scale = 2.22,
@@ -135,6 +138,8 @@ class character extends animated_sprite {
       );
       if (matchingKey) {
         matchingKey.isPressed = false;
+        console.log(this.position.x);
+        console.log(this.emptySpaceOffset);
       }
     });
   }
@@ -149,6 +154,88 @@ class character extends animated_sprite {
         singleKey.moveFunc();
       }
     });
+  }
+
+  checkIfIdle() {
+    // If no movement keys are pressed, character is idle
+    let isIdle = true;
+    this.movementKeysOfPlayer.forEach((singleKey) => {
+      if (singleKey.isPressed) {
+        // Move the character according to required movement
+        isIdle = false;
+      }
+    });
+    if (isIdle) {
+      this.changeImage({
+        imageSource: "./assets/characters/samurai/idle.png",
+        maxAnimationFrames: 8,
+      });
+    }
+
+    // If left and right keys are pressed, character is idle
+    if (
+      this.movementKeyTracker.leftKey.isPressed &&
+      this.movementKeyTracker.rightKey.isPressed
+    ) {
+      this.changeImage({
+        imageSource: "./assets/characters/samurai/idle.png",
+        maxAnimationFrames: 8,
+      });
+    }
+  }
+
+  checkIfRunning() {
+    if (
+      this.movementKeyTracker.leftKey.isPressed ||
+      this.movementKeyTracker.rightKey.isPressed
+    ) {
+      this.changeImage({
+        imageSource: "./assets/characters/samurai/running.png",
+        maxAnimationFrames: 8,
+      });
+    }
+  }
+
+  checkIfJumping() {
+    if (this.nowJumping) {
+      this.changeImage({
+        imageSource: "./assets/characters/samurai/jumping.png",
+        maxAnimationFrames: 2,
+      });
+    }
+  }
+
+  checkIfFalling() {
+    if (
+      !this.nowJumping &&
+      this.position.y + this.height < this.GROUND_HEIGHT
+    ) {
+      this.changeImage({
+        imageSource: "./assets/characters/samurai/falling.png",
+        maxAnimationFrames: 2,
+      });
+    }
+  }
+
+  // Enables attack animation
+  //TODO fix bug that results in double animation 1/7 times
+  //TODO calculate exact lenght of animation & set to ATTACK_TIME
+  checkIfAttacking() {
+    if (this.showAttack) {
+      this.changeImage({
+        imageSource: "./assets/characters/samurai/attacking-primary.png",
+        maxAnimationFrames: 6,
+      });
+    }
+  }
+
+  // Checks the way the character is moving and updates sprite accordingly
+  checkCharacterState() {
+    this.checkIfRunning();
+    this.checkIfIdle();
+    this.checkIfJumping();
+    this.checkIfFalling();
+    this.checkIfAttacking();
   }
 
   // Setters
@@ -301,7 +388,9 @@ class character extends animated_sprite {
     this.checkBoundaries();
 
     // Draw attack box
-    this.drawAttack();
+    //this.drawAttack();
+
+    this.checkCharacterState();
 
     // Draw the character
     this.draw();

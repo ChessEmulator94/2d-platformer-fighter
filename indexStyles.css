@@ -60,7 +60,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Jacquard 12";
+  /* font-family: "Jacquard 12"; */
   font-size: 70;
 }
 

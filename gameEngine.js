@@ -88,14 +88,26 @@ class gameEngine {
   }
 
   // Check if player hit enemy, used by checkCollisions()
+  // New function that makes use of the animation
+  // TODO add check for position.y
   successfulAttack({ player, enemy }) {
-    return (
-      player.getAttackBoxPositionX() < enemy.position.x + enemy.width &&
-      player.getAttackBoxPositionX() + player.attackBox.width >
-        enemy.position.x &&
-      player.attackBox.position.y < enemy.position.y + enemy.height &&
-      player.attackBox.position.y > enemy.height
-    );
+    //console.log(player.heldWeapon.range);
+    let playerReach = {
+      start: player.position.x + player.width,
+      end: player.position.x + player.width + player.heldWeapon.range,
+    };
+    let enemyHitRange = {
+      start: enemy.position.x,
+      end: enemy.position.x + enemy.width,
+    };
+    for (let i = playerReach.start; i < playerReach.end; i++) {
+      for (let j = enemyHitRange.start; j < enemyHitRange.end; j++) {
+        if (i == j) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   recordAttack({ attacker, victim, damage }) {

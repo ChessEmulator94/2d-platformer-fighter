@@ -6,13 +6,13 @@ class animated_sprite extends sprite {
     canvasContext.drawImage(
       this.image,
       this.cropStartX +
-        (this.image.width / this.scale / this.maxAnimationFrames) * this.offset,
+        (this.image.width / this.maxAnimationFrames) * this.offset,
       this.cropStartY,
-      this.image.width / this.maxAnimationFrames / this.scale,
+      this.image.width / this.maxAnimationFrames,
       this.image.height,
       this.position.x - this.emptySpaceOffset.x,
       this.position.y - this.emptySpaceOffset.y,
-      this.image.width / this.maxAnimationFrames,
+      (this.image.width * this.scale) / this.maxAnimationFrames,
       this.image.height * this.scale
     );
   }
