@@ -4,6 +4,7 @@ This is a 2D platformer style street fighter esque game made using JS, HTML and 
 
 ## TODO
 
+- Organize directory
 - Add game timer
 - Add check for player health getting to 0
 - Add check for end game situation
