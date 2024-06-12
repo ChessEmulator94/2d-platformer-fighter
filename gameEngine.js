@@ -25,8 +25,6 @@ class gameEngine {
       scale: 2.22,
     });
 
-    console.log(this.shopImage);
-
     this.allGraphics.push(this.shopImage);
 
     // Create player
@@ -38,12 +36,11 @@ class gameEngine {
       position: { x: 50, y: canvas.height - 180 }, // Subracted number must == height
       direction: 1,
       primaryAttack: " ",
+      characterName: "samurai",
     });
 
-    console.log(this.playerCharacter);
-
     // Create enemy using default constructor
-    this.playerCharacter2 = new character();
+    this.playerCharacter2 = new character({ characterName: "samurai" });
 
     // Add playerCharacter objects to arr of graphics that need to be drawn
     this.allGraphics.push(this.playerCharacter);
@@ -91,7 +88,6 @@ class gameEngine {
   // New function that makes use of the animation
   // TODO add check for position.y
   successfulAttack({ player, enemy }) {
-    //console.log(player.heldWeapon.range);
     let playerReach = {
       start: player.position.x + player.width,
       end: player.position.x + player.width + player.heldWeapon.range,
@@ -111,10 +107,12 @@ class gameEngine {
   }
 
   recordAttack({ attacker, victim, damage }) {
+    victim.takeDamage();
     victim.adjustHealth({ damage: damage });
   }
 
   // Checks for successful attacks
+  // TODO Currently not working if player is facing -1
   checkCollisions({ player }) {
     if (player.isAttacking) {
       this.allCharacters.forEach((otherPlayer) => {

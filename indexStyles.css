@@ -32,12 +32,13 @@ body {
   height: 60%;
   border: solid 4px white;
   position: relative;
+  background-color: 8a0303;
 }
 
 /* Width of health-total is linked to character health */
 .health-total {
   position: absolute;
-  background-color: #8a0303;
+  background-color: blue;
   height: 100%;
 }
 

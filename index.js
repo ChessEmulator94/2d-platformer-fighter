@@ -5,6 +5,9 @@ canvas.height = 576;
 const canvasContext = canvas.getContext("2d");
 canvasContext.fillStyle = "white";
 canvasContext.fillRect(0, 0, canvas.width, canvas.height);
+// Add white opacity over background image (assists distinguishing characters)
+canvasContext.fillStyle = "rgba(255,255,255,0.5)";
+canvasContext.fillRect(0, 0, canvas.width, canvas.height);
 
 const gameEngineMain = new gameEngine();
 

@@ -8,6 +8,7 @@ class sprite {
     maxAnimationFrames = 1,
     emptySpaceOffset = { x: 0, y: 0 },
     inverseFrameRate = 20,
+    direction = 1,
   }) {
     this.inverseFrameRate = inverseFrameRate;
     this.scale = scale;
@@ -24,6 +25,7 @@ class sprite {
     this.framesElapsed = 0;
     this.offset = 0;
     this.emptySpaceOffset = emptySpaceOffset;
+    this.direction = direction;
   }
 
   draw() {

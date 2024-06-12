@@ -31,6 +31,7 @@ class character extends animated_sprite {
     offset = 0,
     emptySpaceOffset = { x: 169, y: 180 },
     inverseFrameRate = 4,
+    characterName = "samurai",
   } = {}) {
     super({
       inverseFrameRate,
@@ -45,6 +46,7 @@ class character extends animated_sprite {
       offset,
     });
 
+    this.showBeingHit = false;
     this.showAttack = false;
     this.position = position;
     this.canJump = true;
@@ -57,6 +59,7 @@ class character extends animated_sprite {
     this.addMovementBindings({ leftKey, rightKey, downKey, upKey });
     this.addAttackBox();
     this.addAttackBindings({ primaryAttack });
+    this.characterName = characterName;
   }
 
   // Adds a weapon to the character and initialises the attack box
@@ -111,6 +114,13 @@ class character extends animated_sprite {
     }, this.ATTACK_TIME);
   }
 
+  takeDamage() {
+    this.showBeingHit = true;
+    setTimeout(() => {
+      this.showBeingHit = false;
+    }, 300);
+  }
+
   // Binds keyboard keys with movement actions and creates events for them
   addMovementBindings({ leftKey, rightKey, downKey, upKey }) {
     // Holds key mappings for movement and stores whether or not they're currently active
@@ -138,8 +148,6 @@ class character extends animated_sprite {
       );
       if (matchingKey) {
         matchingKey.isPressed = false;
-        console.log(this.position.x);
-        console.log(this.emptySpaceOffset);
       }
     });
   }
@@ -167,7 +175,7 @@ class character extends animated_sprite {
     });
     if (isIdle) {
       this.changeImage({
-        imageSource: "./assets/characters/samurai/idle.png",
+        imageSource: `./assets/characters/${this.characterName}/idle.png`,
         maxAnimationFrames: 8,
       });
     }
@@ -178,7 +186,7 @@ class character extends animated_sprite {
       this.movementKeyTracker.rightKey.isPressed
     ) {
       this.changeImage({
-        imageSource: "./assets/characters/samurai/idle.png",
+        imageSource: `./assets/characters/${this.characterName}/idle.png`,
         maxAnimationFrames: 8,
       });
     }
@@ -190,7 +198,7 @@ class character extends animated_sprite {
       this.movementKeyTracker.rightKey.isPressed
     ) {
       this.changeImage({
-        imageSource: "./assets/characters/samurai/running.png",
+        imageSource: `./assets/characters/${this.characterName}/running.png`,
         maxAnimationFrames: 8,
       });
     }
@@ -199,7 +207,7 @@ class character extends animated_sprite {
   checkIfJumping() {
     if (this.nowJumping) {
       this.changeImage({
-        imageSource: "./assets/characters/samurai/jumping.png",
+        imageSource: `./assets/characters/${this.characterName}/jumping.png`,
         maxAnimationFrames: 2,
       });
     }
@@ -211,7 +219,7 @@ class character extends animated_sprite {
       this.position.y + this.height < this.GROUND_HEIGHT
     ) {
       this.changeImage({
-        imageSource: "./assets/characters/samurai/falling.png",
+        imageSource: `./assets/characters/${this.characterName}/falling.png`,
         maxAnimationFrames: 2,
       });
     }
@@ -223,8 +231,17 @@ class character extends animated_sprite {
   checkIfAttacking() {
     if (this.showAttack) {
       this.changeImage({
-        imageSource: "./assets/characters/samurai/attacking-primary.png",
+        imageSource: `./assets/characters/${this.characterName}/attacking-primary.png`,
         maxAnimationFrames: 6,
+      });
+    }
+  }
+
+  checkIfTakingDamage() {
+    if (this.showBeingHit) {
+      this.changeImage({
+        maxAnimationFrames: 4,
+        imageSource: `./assets/characters/${this.characterName}/take-hit.png`,
       });
     }
   }
@@ -236,6 +253,7 @@ class character extends animated_sprite {
     this.checkIfJumping();
     this.checkIfFalling();
     this.checkIfAttacking();
+    this.checkIfTakingDamage();
   }
 
   // Setters
@@ -301,13 +319,23 @@ class character extends animated_sprite {
   // If character moves beyond a boundary, character is shifted
   // to closest valid point in the canvas
   checkBoundaryRight() {
-    if (this.position.x + this.width > canvas.width) {
-      this.position.x = canvas.width - this.width;
+    if (
+      this.position.x +
+        this.image.width / this.maxAnimationFrames -
+        this.emptySpaceOffset.x / 2 -
+        30 >
+      canvas.width
+    ) {
+      this.position.x =
+        canvas.width -
+        this.image.width / this.maxAnimationFrames +
+        this.emptySpaceOffset.x / 2 +
+        30;
     }
   }
   checkBoundaryLeft() {
-    if (this.position.x < 0) {
-      this.position.x = 0;
+    if (this.position.x + 41 < 0) {
+      this.position.x = -41;
     }
   }
   checkBoundaryGround() {
